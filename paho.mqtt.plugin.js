@@ -18,7 +18,6 @@
 				"display_name" : "MQTT Server",
 				"type"         : "text",
 				"description"  : "Hostname for your MQTT Server",
-                "required" : true
 			},
 			{
 				"name"        : "port",
@@ -144,6 +143,18 @@
 			}
 			updateCallback(data);
 		};
+
+
+		// Allow datasource to post mqtt messages
+		self.send = function(value) {
+			if (client.isConnected()) {
+				if (typeof(value) == 'boolean') value = value ? 1 : 0;
+				var message = new Paho.MQTT.Message(String(value));
+		        message.destinationName = currentSettings.topic;
+		        client.send(message);
+			}
+		}
+
 
 		// **onSettingsChanged(newSettings)** (required) : A public function we must implement that will be called when a user makes a change to the settings.
 		self.onSettingsChanged = function(newSettings)
