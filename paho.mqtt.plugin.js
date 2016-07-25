@@ -149,10 +149,16 @@
 		// Allow datasource to post mqtt messages
 		self.send = function(value) {
 			if (client.isConnected()) {
+				var message;
 				if (typeof(value) == 'boolean') value = value ? 1 : 0;
-				var message = new Paho.MQTT.Message(String(value));
-		        message.destinationName = currentSettings.topic;
-		        client.send(message);
+				if (typeof(value) == 'object') {
+					message = new Paho.MQTT.Message(String(value.msg));
+					message.destinationName = value.topic;
+				} else {
+					message = new Paho.MQTT.Message(String(value));
+					message.destinationName = currentSettings.topic;
+				}
+				client.send(message);
 			}
 		}
 
