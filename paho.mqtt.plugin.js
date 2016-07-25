@@ -18,6 +18,7 @@
 				"display_name" : "MQTT Server",
 				"type"         : "text",
 				"description"  : "Hostname for your MQTT Server",
+                "required" : true
 			},
 			{
 				"name"        : "port",
